@@ -2,32 +2,63 @@ from abc import ABC,abstractmethod
 from enum import Enum,auto
 
 class TokenType(Enum):
-    plus=auto()
-    minus=auto()
-    star=auto()
-    slash=auto()
+    Plus=auto()
+    Minus=auto()
+    Star=auto()
+    Slash=auto()
 
-    ge=auto()
-    gt=auto()
-    eq=auto()
-    le=auto()
-    lt=auto()
+    Ge=auto()
+    Gt=auto()
+    Eq=auto()
+    Le=auto()
+    Lt=auto()
 
-    semicolon=auto()
-    left_paren=auto()
-    right_paren=auto()
+    Semicolon=auto()
+    LeftParen=auto()
+    RightParen=auto()
 
-    assigment=auto()
+    Assigment=auto()
 
-    ife=auto()
-    elsee=auto()
+    If=auto()
+    Else=auto()
 
-    int=auto()
+    Int=auto()
 
-    identifier=auto()
+    Identifier=auto()
 
-    int_literal=auto()
-    string_literal=auto()
+    IntLiteral=auto()
+    StringLiteral=auto()
+
+class DFastate(Enum):
+    Initial=auto()
+    
+    If=auto()
+    Id_if1=auto()
+    Id_if2=auto()
+    Else=auto()
+    Id_else1=auto()
+    Id_else2=auto()
+    Id_else3=auto()
+    Id_else4=auto()
+    Int=auto()
+    Id_int1=auto()
+    Id_int2=auto()
+    Id_int3=auto()
+    Id=auto()
+    Gt=auto()
+    Ge=auto()
+    
+    Assigment=auto()
+    Plus=auto()
+    Minus=auto()
+    Star=auto()
+    Slash=auto()
+
+    Semicon=auto()
+    LeftParen=auto()
+    RightParen=auto()
+
+    IntLiteral=auto()
 
 class Token(ABC):
     @abstractmethod
