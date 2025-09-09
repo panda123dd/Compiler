@@ -70,15 +70,24 @@ class Token(ABC):
         pass
 
 class SimpleToken(Token):
-    def __init__(self,token_type:TokenType,text:str):
-        self._token_type=token_type
-        self._text=text
+    def __init__(self):
+        self._type=None
+        self._text=""
     
     def get_type(self):
-        return self._token_type
+        return self._type
     
     def get_text(self):
         return self._text
+
+    def get_text_len(self):
+        return len(self._text)
+    
+    def text_add(self,ch:str):
+        self._text+=ch
+    
+    def set_type(self,token_type):
+        self._type=token_type
 
 class TokenReader(ABC):
     @abstractmethod
@@ -108,8 +117,9 @@ class SimpleTokenReader(TokenReader):
 
     def read(self):
         if self.pos<len(self.simple_tokens):
+            token=self.simple_tokens[self.pos]
             self.pos+=1
-            return self.simple_tokens[self.pos]
+            return token
         return None
     
     def peek(self):
