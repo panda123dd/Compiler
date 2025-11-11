@@ -137,6 +137,9 @@ class SimpleTokenReader(TokenReader):
     def set_position(self,position:int):
         if 0<=position and position<len(self.simple_tokens):
             self.pos=position
+def test():
+    pass
+	
         
     
 
