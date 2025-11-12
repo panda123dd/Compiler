@@ -42,8 +42,8 @@ class Lexer():
             self.token.set_type(TokenType.Gt)
             self.token.text_add(ch)
         elif ch=="=":
-            new_state=DFastate.Ge
-            self.token.set_type(TokenType.Ge)
+            new_state=DFastate.Assigment
+            self.token.set_type(TokenType.Assigment)
             self.token.text_add(ch)
         elif ch=="+":
             new_state=DFastate.Plus
@@ -88,7 +88,7 @@ class Lexer():
                     self.token.text_add(ch)
                 else:
                     state=self.init_token(ch)
-            elif state==DFastate.Gt:
+            elif state==DFastate.Assigment:
                 if ch=="=":
                     self.token.text_add(ch)
                     self.token.set_type(TokenType.Ge)
