@@ -69,7 +69,22 @@ class Parse():
                         tokens.read()
                    else:
                         raise Exception("Invalid statement, semicolon required.")  
-            
+           else:
+               tokens.unread()
+        return node
+    
+    def expression_statement(self,tokens:SimpleTokenReader):
+        pos=tokens.get_position()
+        node=self.additive(tokens)
+        if node!=None:
+            token=tokens.peek()
+            if token!=None and token.get_type()==TokenType.Semicolon:
+                tokens.read()
+            else:
+                tokens.set_position(pos)
+                node=None
+        return node
+
            
                    
 
