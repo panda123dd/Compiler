@@ -10,6 +10,7 @@ def repl():
             p.dump_tokens()
             root_node=p.parse()
             p.dump_ast(root_node,"")
+            p.evaluate(root_node,"")
         except Exception as e:
             print("Exception: ",e)
 if __name__=="__main__":

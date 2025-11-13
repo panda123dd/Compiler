@@ -6,10 +6,70 @@ class Parse():
     def __init__(self,script):
         self.lexer=Lexer()
         self.tokens=self.lexer.tokenize(script)
+        self.variables={}
         
     def parse(self):
         root_node=self.prog(self.tokens)
         return root_node
+
+    def evaluate(self,node:SimpleAstNode,indent:str):
+        if node.get_type()==AstNodeType.Program:
+            print("---------------------Evaluate------------------")
+        result=0
+        print(indent+"Calculating: "+str(node.get_type()))
+        if node.get_type()==AstNodeType.Program:
+            for child in node.get_children():
+                result=self.evaluate(child,indent)
+        elif node.get_type()==AstNodeType.AssignmentStmt:
+            var_name=node.get_text()
+            if var_name not in self.variables.keys():
+                raise Exception("Unknown variable: ",var_name)
+            if len(node.get_children())>0:
+                result=self.evaluate(node.get_children()[0],indent+"\t")
+                var_value=int(result)
+                self.variables[var_name]=var_value
+        elif node.get_type()==AstNodeType.IntDeclaration:
+            var_name=node.get_text()
+            var_value=0
+            if len(node.get_children())>0:
+                result=self.evaluate(node.get_children[0],indent+"\t")
+                var_value=int(result)
+            self.variables[var_name]=var_value
+        elif node.get_type()==AstNodeType.Additive:
+            child1=node.get_children()[0]
+            res1=int(self.evaluate(child1,indent+"\t"))
+            child2=node.get_children()[1]
+            res2=int(self.evaluate(child2,indent+"\t"))
+            if node.get_text()=="+":
+                result=res1+res2
+            else:
+                result=res1-res2
+        elif node.get_type()==AstNodeType.Multiplicative:
+            child1=node.get_children()[0]
+            res1=int(self.evaluate(child1,indent+"\t"))
+            child2=node.get_children()[1]
+            res2=int(self.evaluate(child2,indent+"\t"))
+            if node.get_text()=="*":
+                result=res1*res2
+            else:
+                result=res1/res2
+        elif node.get_type()==AstNodeType.Intliteral:
+            result=int(node.get_text())
+        elif node.get_type()==AstNodeType.Identifier:
+            var_name=node.get_text()
+            if var_name in self.variables.keys():
+                var_value=self.variables[var_name]
+                if var_value!=None:
+                    result=int(var_value)
+                else:
+                    raise Exception(f"Variable {var_name} has not been set any value")
+            else:
+                raise Exception(f"Unknown variable {var_name}")
+        if node.get_type()==AstNodeType.IntDeclaration or node.get_type()==AstNodeType.AssignmentStmt:
+            print(node.get_text()+":"+str(result))
+        elif node.get_type()!=AstNodeType.Program:
+            print(indent+"Result: "+str(result))
+        return result
 
     def prog(self,tokens:SimpleTokenReader):
         node=SimpleAstNode(AstNodeType.Program,"pwc")
